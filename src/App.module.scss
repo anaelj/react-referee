@@ -3,3 +3,10 @@
     border: solid 2px blue;
     border-radius: 2rem;
 }
+button {
+        display: flex;
+        align-items: center;
+        svg {
+            margin-right: 3px;
+        }
+    }

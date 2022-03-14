@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { api } from "./../services/api";
-import { ITicker } from "./../shared/interfaces";
+import { INewTicker, ITicker } from "./../shared/interfaces";
 import useSound from "use-sound";
 import soundUrl from "./../shared/alerta.mp3";
-import { MdAssessment, MdCached } from "react-icons/md";
+import { MdAssessment, MdCached, MdEdit } from "react-icons/md";
 import styles from "./styles.module.scss";
+import { useNavigate } from "react-router-dom";
 
 interface IPairOfTicker {
   tickerA: ITicker;
@@ -20,7 +21,7 @@ interface IUserData {
 }
 
 interface ITickerProps {
-  tickerName: string;
+  ticker: INewTicker;
   rule: (
     currentTicker: string,
     newQuantity: number,
@@ -28,10 +29,12 @@ interface ITickerProps {
   ) => boolean;
 }
 
-function Ticker({ tickerName, rule }: ITickerProps) {
+function Ticker({ ticker, rule }: ITickerProps) {
+  const tickerName = ticker.name.substring(0, 4);
   const [timeVerify, setTimeVerify] = useState(0);
   const oneMinute = 60000;
   const intervalToVerify = oneMinute;
+  const navigate = useNavigate();
   const [ticketList, setTicketList] = useState<IPairOfTicker[]>([
     {} as IPairOfTicker,
   ]);
@@ -42,18 +45,13 @@ function Ticker({ tickerName, rule }: ITickerProps) {
   const [showHistoric, setShowHistoric] = useState(false);
 
   const getDataFromStore = () => {
-    const saved = localStorage.getItem("userData" + tickerName);
-    if (saved) {
-      return JSON.parse(saved);
-    } else {
-      return {
-        ticker: `${tickerName}3`,
-        quantity: 0,
-        amount: 0,
-        quantityChangeStart: 0,
-        quantityChangeNew: 0,
-      };
-    }
+    return {
+      ticker: `${tickerName}3`,
+      quantity: ticker.quantity,
+      amount: ticker.amount,
+      quantityChangeStart: ticker.startQuantity,
+      quantityChangeNew: ticker.newQuantity,
+    };
   };
 
   const [userData, setUserData] = useState<IUserData>(
@@ -147,11 +145,11 @@ function Ticker({ tickerName, rule }: ITickerProps) {
     playbackRate: 1,
     volume: 0.1,
   });
-  
+
   useEffect(() => {
     console.log(showHistoric);
   }, [showHistoric]);
-  
+
   return (
     <div className={styles.container}>
       <div>{`${tickerName}3 - ask:${ticketList[0]?.tickerA?.ask}   bid:${ticketList[0]?.tickerA?.bid}`}</div>
@@ -223,7 +221,7 @@ function Ticker({ tickerName, rule }: ITickerProps) {
         <div style={{ display: "flex", flexDirection: "column" }}>
           <span style={{ display: "block", height: "19px" }}></span>
           <button onClick={resetQuantityChangeStart} className={styles.button}>
-            <MdCached size={24}/>
+            <MdCached size={24} />
             Reiniciar Parâmetro de Troca
           </button>
           {/* <button onClick={() => play()}>testar som</button>
@@ -231,9 +229,19 @@ function Ticker({ tickerName, rule }: ITickerProps) {
         </div>
         <div>
           <span style={{ display: "block", height: "19px" }}></span>
-          <button onClick={() => setShowHistoric(!showHistoric)} className={styles.button}>
-            <MdAssessment size={24}/>
+          <button
+            onClick={() => setShowHistoric(!showHistoric)}
+            className={styles.button}
+          >
+            <MdAssessment size={24} />
             Histórico
+          </button>
+        </div>
+        <div>
+          <span style={{ display: "block", height: "19px" }}></span>
+          <button onClick={() => navigate(`updateticker/${ticker.id}`)}>
+            <MdEdit size={24} />
+            Editar
           </button>
         </div>
       </div>
