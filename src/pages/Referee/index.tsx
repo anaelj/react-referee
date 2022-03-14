@@ -25,20 +25,7 @@ export function Referee() {
     getTickers();
   }, []);
 
-  const ruleSapr = (
-    currentTicker: string,
-    newQuantity: number,
-    startQuantity: number
-  ) => {
-    if (currentTicker === "SAPR3") {
-      return startQuantity <= newQuantity;
-    } else if (currentTicker === "SAPR4") {
-      return startQuantity <= newQuantity - 20;
-    } else {
-      return false;
-    }
-  };
-  const ruleOibr = (
+  const getRule = (
     currentTicker: string,
     newQuantity: number,
     startQuantity: number
@@ -47,23 +34,17 @@ export function Referee() {
       return startQuantity <= newQuantity - 20;
     } else if (currentTicker === "OIBR4") {
       return startQuantity <= newQuantity - 30;
+    } else if (currentTicker === "SAPR3") {
+      return startQuantity <= newQuantity;
+    } else if (currentTicker === "SAPR4") {
+      return startQuantity <= newQuantity - 20;
+    } else if (currentTicker === "ITSA3") {
+      return startQuantity <= newQuantity - 1;
+    } else if (currentTicker === "ITSA4") {
+      return startQuantity <= newQuantity - 2;
     } else {
       return false;
     }
-  };
-  const ruleTaee = (
-    currentTicker: string,
-    newQuantity: number,
-    startQuantity: number
-  ) => {
-    return startQuantity <= newQuantity - 10;
-  };
-  const ruleItub = (
-    currentTicker: string,
-    newQuantity: number,
-    startQuantity: number
-  ) => {
-    return startQuantity <= newQuantity - 20;
   };
 
   return (
@@ -75,7 +56,7 @@ export function Referee() {
         </button>
       </div>
       {tickers.map((ticker) => {
-        return <Ticker rule={ruleOibr} ticker={ticker} />;
+        return <Ticker rule={getRule} ticker={ticker} />;
       })}
     </>
   );
