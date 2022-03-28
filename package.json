@@ -9,14 +9,14 @@
   },
   "dependencies": {
     "axios": "^0.26.0",
+    "dotenv": "^16.0.0",
     "firebase": "^9.6.8",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icon": "^1.0.0",
     "react-icons": "^4.3.1",
     "react-router-dom": "^6.2.2",
-    "sass": "^1.49.9",
-    "use-sound": "^4.0.1"
+    "sass": "^1.49.9"
   },
   "devDependencies": {
     "@types/react": "^17.0.33",

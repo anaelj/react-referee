@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { api } from "./../services/api";
 import { INewTicker, ITicker } from "./../shared/interfaces";
-import useSound from "use-sound";
-import soundUrl from "./../shared/alerta.mp3";
+// import useSound from "use-sound";
+// import soundUrl from "./../shared/alerta.mp3";
 import { MdAssessment, MdCached, MdEdit } from "react-icons/md";
 import styles from "./styles.module.scss";
 import { useNavigate } from "react-router-dom";
@@ -115,6 +115,7 @@ function Ticker({ ticker, rule }: ITickerProps) {
   }, [ticketList]);
 
   useEffect(() => {
+    // console.log(userData);
     localStorage.setItem("userData" + tickerName, JSON.stringify(userData));
     const goTrade = rule(
       userData?.ticker?.toUpperCase(),
@@ -122,9 +123,9 @@ function Ticker({ ticker, rule }: ITickerProps) {
       userData.quantityChangeStart
     );
     setAlertToTrade(goTrade);
-    if (goTrade) {
-      play();
-    }
+    // if (goTrade) {
+    //   play();
+    // }
 
     setDiffHistoric([
       ...diffHistoric,
@@ -141,14 +142,14 @@ function Ticker({ ticker, rule }: ITickerProps) {
     }, intervalToVerify);
   }, [timeVerify]);
 
-  const [play, { stop }] = useSound(soundUrl, {
-    playbackRate: 1,
-    volume: 0.1,
-  });
+  // const [play, { stop }] = useSound(soundUrl, {
+  //   playbackRate: 1,
+  //   volume: 0.1,
+  // });
 
-  useEffect(() => {
-    console.log(showHistoric);
-  }, [showHistoric]);
+  // useEffect(() => {
+  //   console.log(showHistoric);
+  // }, [showHistoric]);
 
   return (
     <div className={styles.container}>
@@ -163,11 +164,11 @@ function Ticker({ ticker, rule }: ITickerProps) {
           <input
             type="text"
             name="ticker"
-            value={userData?.ticker}
+            value={ticker.name}
             style={{ width: "60px" }}
-            onChange={(e) =>
-              setUserData({ ...userData, ticker: e.target.value })
-            }
+            // onChange={(e) =>
+            //   setUserData({ ...userData, ticker: e.target.value })
+            // }
           />
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>

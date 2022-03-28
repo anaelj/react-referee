@@ -3,9 +3,6 @@ import Ticker from "../../components/Ticker";
 import { useNavigate } from "react-router-dom";
 import { MdOpenInNew } from "react-icons/md";
 
-import Oibr from "../../tickers/Oibr";
-import Sapr from "../../tickers/Sapr";
-
 import { db } from "../../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import { INewTicker } from "../../shared/interfaces";

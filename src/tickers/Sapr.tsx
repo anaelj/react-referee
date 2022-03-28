@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "./../services/api";
 import { ITicker } from "./../shared/interfaces";
-import useSound from "use-sound";
+// import useSound from "use-sound";
 import soundUrl from "./../shared/alerta.mp3";
 
 interface IPairOfTicker {
@@ -18,11 +18,15 @@ interface IUserData {
 }
 
 interface ITickerProps {
-  tickerName : string;
-  rule : (currentTicker: string, newQuantity: number, startQuantity: number) => boolean;
+  tickerName: string;
+  rule: (
+    currentTicker: string,
+    newQuantity: number,
+    startQuantity: number
+  ) => boolean;
 }
 
-function Sapr({tickerName, rule }: ITickerProps ) {
+function Sapr({ tickerName, rule }: ITickerProps) {
   const [timeVerify, setTimeVerify] = useState(0);
   const oneMinute = 60000;
   const intervalToVerify = oneMinute;
@@ -35,7 +39,7 @@ function Sapr({tickerName, rule }: ITickerProps ) {
   const [diffHistoric, setDiffHistoric] = useState<string[]>([]);
 
   const getDataFromStore = () => {
-    const saved = localStorage.getItem("userData"+tickerName);
+    const saved = localStorage.getItem("userData" + tickerName);
     if (saved) {
       return JSON.parse(saved);
     } else {
@@ -109,13 +113,17 @@ function Sapr({tickerName, rule }: ITickerProps ) {
   }, [ticketList]);
 
   useEffect(() => {
-    localStorage.setItem("userData"+tickerName, JSON.stringify(userData));
-    const goTrade = rule(userData?.ticker?.toUpperCase(),userData.quantityChangeNew, userData.quantityChangeStart)
-      // userData.quantityChangeNew > userData.quantityChangeStart;
+    localStorage.setItem("userData" + tickerName, JSON.stringify(userData));
+    const goTrade = rule(
+      userData?.ticker?.toUpperCase(),
+      userData.quantityChangeNew,
+      userData.quantityChangeStart
+    );
+    // userData.quantityChangeNew > userData.quantityChangeStart;
     setAlertToTrade(goTrade);
-    if (goTrade) {
-      play();
-    }
+    // if (goTrade) {
+    //   play();
+    // }
 
     setDiffHistoric([
       ...diffHistoric,
@@ -132,10 +140,10 @@ function Sapr({tickerName, rule }: ITickerProps ) {
     }, intervalToVerify);
   }, [timeVerify]);
 
-  const [play, { stop }] = useSound(soundUrl, {
-    playbackRate: 1,
-    volume: 0.1,
-  });
+  // const [play, { stop }] = useSound(soundUrl, {
+  //   playbackRate: 1,
+  //   volume: 0.1,
+  // });
 
   return (
     <>
@@ -204,7 +212,7 @@ function Sapr({tickerName, rule }: ITickerProps ) {
           <button onClick={resetQuantityChangeStart}>
             Reiniciar Parâmetro de Troca
           </button>
-          <button onClick={() => play()}>testar som</button>
+          {/* <button onClick={() => play()}>testar som</button> */}
           <button onClick={() => stop()}>pausar som</button>
         </div>
       </div>

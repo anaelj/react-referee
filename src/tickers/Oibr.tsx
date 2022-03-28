@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "./../services/api";
 import { ITicker } from "./../shared/interfaces";
-import useSound from "use-sound";
+// import useSound from "use-sound";
 import soundUrl from "./../shared/alerta.mp3";
 
 interface IPairOfTicker {
@@ -108,9 +108,9 @@ function Oibr() {
     const goTrade =
       userData.quantityChangeNew - 5 > userData.quantityChangeStart;
     setAlertToTrade(goTrade);
-    if (goTrade) {
-      play();
-    }
+    // if (goTrade) {
+    //   play();
+    // }
 
     setDiffHistoric([
       ...diffHistoric,
@@ -127,10 +127,10 @@ function Oibr() {
     }, intervalToVerify);
   }, [timeVerify]);
 
-  const [play, { stop }] = useSound(soundUrl, {
-    playbackRate: 1,
-    volume: 0.1,
-  });
+  // const [play, { stop }] = useSound(soundUrl, {
+  //   playbackRate: 1,
+  //   volume: 0.1,
+  // });
 
   return (
     <>
@@ -199,7 +199,7 @@ function Oibr() {
           <button onClick={resetQuantityChangeStart}>
             Reiniciar Parâmetro de Troca
           </button>
-          <button onClick={() => play()}>testar som</button>
+          {/* <button onClick={() => play()}>testar som</button> */}
           <button onClick={() => stop()}>pausar som</button>
         </div>
       </div>
